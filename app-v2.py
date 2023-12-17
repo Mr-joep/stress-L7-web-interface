@@ -2,13 +2,24 @@ from flask import Flask, render_template, jsonify
 import requests
 from flask_cors import CORS
 import subprocess
+import os
 
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    # Construct the path to the "combined_output.txt" file
+    file_path = os.path.join("requests_combined", "combined_output.txt")
+
+    # Read content from the "combined_output.txt" file
+    try:
+        with open(file_path, "r") as file:
+            file_content = file.read()
+    except FileNotFoundError:
+        file_content = "File not found."
+
+    return render_template('index.html', file_content=file_content)
 
 @app.route('/check_status')
 def check_status():

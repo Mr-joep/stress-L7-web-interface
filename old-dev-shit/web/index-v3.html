@@ -18,7 +18,7 @@
 
     <div>
         <h2>Content from combined_output.txt</h2>
-        <pre id="fileContent"></pre>
+        <pre>{{ file_content }}</pre>
     </div>
 
     <script>
@@ -43,22 +43,8 @@
             });
         }
 
-        function updateFileContent() {
-            $.ajax({
-                url: "/file_content",
-                type: "GET",
-                success: function (data) {
-                    $("#fileContent").text(data.file_content);
-                },
-                complete: function () {
-                    setTimeout(updateFileContent, 1000);
-                }
-            });
-        }
-
-        // Initial checks when the page loads
+        // Initial check when the page loads
         checkStatus();
-        updateFileContent();
     </script>
 </body>
 </html>

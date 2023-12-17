@@ -11,15 +11,11 @@
     <p>This is a simple example using Flask.</p>
 
     <div id="status"></div>
+    <div id="requestsPerSecond"></div>
 
     <form method="post" action="/run_load_script">
         <button type="submit">Run load.py script</button>
     </form>
-
-    <div>
-        <h2>Content from combined_output.txt</h2>
-        <pre id="fileContent"></pre>
-    </div>
 
     <script>
         function checkStatus() {
@@ -43,22 +39,23 @@
             });
         }
 
-        function updateFileContent() {
+        function updateRequestsPerSecond() {
             $.ajax({
-                url: "/file_content",
+                url: "/get_requests_per_second",
                 type: "GET",
                 success: function (data) {
-                    $("#fileContent").text(data.file_content);
+                    $("#requestsPerSecond").text("Requests per second: " + data.requests_per_second);
                 },
                 complete: function () {
-                    setTimeout(updateFileContent, 1000);
+                    setTimeout(updateRequestsPerSecond, 1000);
                 }
             });
         }
 
-        // Initial checks when the page loads
+        // Initial check when the page loads
         checkStatus();
-        updateFileContent();
+        // Update requests per second
+        updateRequestsPerSecond();
     </script>
 </body>
 </html>
