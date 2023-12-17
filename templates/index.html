@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Python Website</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <h1>Welcome to My Python Website!</h1>
+    <p>This is a simple example using Flask.</p>
+
+    <div id="status"></div>
+
+    <form method="post" action="/run_load_script">
+        <button type="submit">Run load.py script</button>
+    </form>
+
+    <script>
+        function checkStatus() {
+            $.ajax({
+                url: "/check_status",
+                type: "GET",
+                timeout: 3000,
+                success: function (data) {
+                    if (data.status === 'online') {
+                        $("#status").text("Website is online (Status Code " + data.statusCode + ").");
+                    } else {
+                        $("#status").text("Website is offline (Status Code " + data.statusCode + ").");
+                    }
+                },
+                error: function () {
+                    $("#status").text("Website is offline.");
+                },
+                complete: function () {
+                    setTimeout(checkStatus, 1000);
+                }
+            });
+        }
+
+        // Initial check when the page loads
+        checkStatus();
+    </script>
+</body>
+</html>
