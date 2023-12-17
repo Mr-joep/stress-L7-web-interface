@@ -11,6 +11,7 @@
     <p>This is a simple example using Flask.</p>
 
     <div id="status"></div>
+    <div id="requestsPerSecond"></div>
 
     <form method="post" action="/run_load_script">
         <button type="submit">Run load.py script</button>
@@ -38,8 +39,23 @@
             });
         }
 
+        function updateRequestsPerSecond() {
+            $.ajax({
+                url: "/get_requests_per_second",
+                type: "GET",
+                success: function (data) {
+                    $("#requestsPerSecond").text("Requests per second: " + data.requests_per_second);
+                },
+                complete: function () {
+                    setTimeout(updateRequestsPerSecond, 1000);
+                }
+            });
+        }
+
         // Initial check when the page loads
         checkStatus();
+        // Update requests per second
+        updateRequestsPerSecond();
     </script>
 </body>
 </html>
