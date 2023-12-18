@@ -21,11 +21,14 @@
         <pre id="fileContent"></pre>
     </div>
 
-    <form id="websiteForm">
-        <label for="websiteData">Enter website domain or IP address:</label>
-        <input type="text" id="websiteData" name="website_data">
-        <button type="button" onclick="saveWebsiteData()">Save Website Data</button>
-    </form>
+    <div>
+        <h2>Save Website</h2>
+        <form id="saveWebsiteForm">
+            <label for="website">Enter a website domain or IP address:</label>
+            <input type="text" id="website" name="website" required>
+            <button type="submit">Save Website</button>
+        </form>
+    </div>
 
     <script>
         function checkStatus() {
@@ -62,20 +65,20 @@
             });
         }
 
-        function saveWebsiteData() {
-            var websiteData = $("#websiteData").val();
+        $("#saveWebsiteForm").submit(function (event) {
+            event.preventDefault();
+
+            var website = $("#website").val();
+
             $.ajax({
-                url: "/save_request_website",
+                url: "/save_website",
                 type: "POST",
-                data: { 'website_data': websiteData },
-                success: function (response) {
-                    alert(response);
-                },
-                error: function () {
-                    alert("Error saving website data.");
+                data: { website: website },
+                success: function (data) {
+                    console.log(data);
                 }
             });
-        }
+        });
 
         // Initial checks when the page loads
         checkStatus();

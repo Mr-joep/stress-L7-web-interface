@@ -21,12 +21,6 @@
         <pre id="fileContent"></pre>
     </div>
 
-    <form id="websiteForm">
-        <label for="websiteData">Enter website domain or IP address:</label>
-        <input type="text" id="websiteData" name="website_data">
-        <button type="button" onclick="saveWebsiteData()">Save Website Data</button>
-    </form>
-
     <script>
         function checkStatus() {
             $.ajax({
@@ -58,21 +52,6 @@
                 },
                 complete: function () {
                     setTimeout(updateFileContent, 1000);
-                }
-            });
-        }
-
-        function saveWebsiteData() {
-            var websiteData = $("#websiteData").val();
-            $.ajax({
-                url: "/save_request_website",
-                type: "POST",
-                data: { 'website_data': websiteData },
-                success: function (response) {
-                    alert(response);
-                },
-                error: function () {
-                    alert("Error saving website data.");
                 }
             });
         }
