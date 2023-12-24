@@ -4,11 +4,6 @@ import time
 
 def write_requests_total(directory_path, output_file_path):
     try:
-        # Ensure the output directory exists, create it if not
-        output_directory = os.path.dirname(output_file_path)
-        if not os.path.exists(output_directory):
-            os.makedirs(output_directory)
-
         # Store the last read position for each file
         last_positions = {}
 
@@ -26,12 +21,12 @@ def write_requests_total(directory_path, output_file_path):
                 # Get the last read position for the file
                 last_position = last_positions.get(file_name, 0)
 
-                # Read and extract the numeric value after "Total Requests per second::"
+                # Read and extract the numeric value after "Requests per second:"
                 try:
                     with open(file_path, 'r') as file:
                         file.seek(last_position)
                         file_content = file.read()
-                        match = re.search(r'Total Requests per second:: (\d+(\.\d+)?)', file_content)
+                        match = re.search(r'Requests per second: (\d+(\.\d+)?)', file_content)
                         if match:
                             requests_per_second = float(match.group(1))
                             total_requests += requests_per_second

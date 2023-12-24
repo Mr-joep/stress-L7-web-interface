@@ -1,6 +1,5 @@
 import asyncio
 import aiohttp
-import os
 
 async def fire_and_forget(url, session, counter):
     try:
@@ -23,25 +22,11 @@ class RequestCounter:
         self.count = 0
         return current_count
 
-def get_log_file_path(log_folder, base_name="test.txt"):
-    log_file_path = os.path.join(log_folder, base_name)
-    if os.path.exists(log_file_path):
-        # If the file already exists, find the next available number
-        file_number = 1
-        while os.path.exists(os.path.join(log_folder, f"{base_name}-{file_number}.txt")):
-            file_number += 1
-        log_file_path = os.path.join(log_folder, f"{base_name}-{file_number}.txt")
-    return log_file_path
-
 async def write_requests_per_second(counter):
-    log_folder = "requests_log"
-    os.makedirs(log_folder, exist_ok=True)
-
     while True:
         await asyncio.sleep(1)
         total_requests = counter.reset()
-        log_file_path = get_log_file_path(log_folder)
-        with open(log_file_path, "w") as file:
+        with open("test.txt", "w") as file:
             file.write(f"Requests per second: {total_requests}\n")
 
 async def main():
