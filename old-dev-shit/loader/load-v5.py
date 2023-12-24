@@ -14,7 +14,6 @@ async def fire_and_forget(url, session, counter):
 class RequestCounter:
     def __init__(self):
         self.count = 0
-        self.log_file_path = None
 
     def increment(self):
         self.count += 1
@@ -24,26 +23,25 @@ class RequestCounter:
         self.count = 0
         return current_count
 
-def get_log_file_path(log_folder, base_name="requests_log"):
-    if not os.path.exists(log_folder):
-        os.makedirs(log_folder)
-    if not os.path.exists(os.path.join(log_folder, "requests_log-1.txt")):
-        return os.path.join(log_folder, "requests_log-1.txt")
-    
-    # If the file already exists, find the next available number
-    file_number = 1
-    while os.path.exists(os.path.join(log_folder, f"{base_name}-{file_number}.txt")):
-        file_number += 1
-    return os.path.join(log_folder, f"{base_name}-{file_number}.txt")
+def get_log_file_path(log_folder, base_name="test.txt"):
+    log_file_path = os.path.join(log_folder, base_name)
+    if os.path.exists(log_file_path):
+        # If the file already exists, find the next available number
+        file_number = 1
+        while os.path.exists(os.path.join(log_folder, f"{base_name}-{file_number}.txt")):
+            file_number += 1
+        log_file_path = os.path.join(log_folder, f"{base_name}-{file_number}.txt")
+    return log_file_path
 
 async def write_requests_per_second(counter):
     log_folder = "requests_log"
-    counter.log_file_path = get_log_file_path(log_folder)
+    os.makedirs(log_folder, exist_ok=True)
 
     while True:
         await asyncio.sleep(1)
         total_requests = counter.reset()
-        with open(counter.log_file_path, "w") as file:
+        log_file_path = get_log_file_path(log_folder)
+        with open(log_file_path, "w") as file:
             file.write(f"Requests per second: {total_requests}\n")
 
 async def main():
