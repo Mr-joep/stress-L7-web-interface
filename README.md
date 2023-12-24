@@ -1,5 +1,4 @@
-this is stil in develepment 
-but it works already
+this is stil in develepment, but it works already
 
 
 ## Documentation
