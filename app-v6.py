@@ -24,7 +24,7 @@ def home():
 @app.route('/check_status')
 def check_status():
     try:
-        response = requests.get('http://192.168.10.14')
+        response = requests.get('http://192.168.10.10')
         if response.status_code >= 200 and response.status_code < 350:
             return jsonify({'status': 'online', 'statusCode': response.status_code})
         else:
