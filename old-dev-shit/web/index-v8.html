@@ -4,40 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Python Website</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <style>
-        /* Additional CSS for button alignment */
-        form {
-            display: inline-block;
-            margin-right: 10px;
-        }
-    </style>
 </head>
 <body>
-    <h1>Welcome to the loader portal</h1>
-    <p>On this page you will find all the information and settings you can use for your load test!</p>
+    <h1>Welcome to My Python Website!</h1>
+    <p>This is a simple example using Flask.</p>
 
     <div id="status"></div>
 
     <form method="post" action="/run_load_script">
-        <button type="submit">start the loader</button>
-    </form>
-
-    <form method="post" action="/another_action">
-        <button type="submit">stop loader</button>
+        <button type="submit">Run load.py script</button>
     </form>
 
     <div>
-        <h2>Number of requests you make to your domain or ip</h2>
+        <h2>Content from combined_output.txt</h2>
         <pre id="fileContent"></pre>
     </div>
 
     <form id="websiteForm">
         <label for="websiteData">Enter website domain or IP address:</label>
         <input type="text" id="websiteData" name="website_data">
-        <button type="button" onclick="saveWebsiteData()">Save domain or ip</button>
+        <button type="button" onclick="saveWebsiteData()">Save Website Data</button>
     </form>
 
     <script>

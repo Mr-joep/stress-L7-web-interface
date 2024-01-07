@@ -2,14 +2,19 @@ import os
 import re
 import time
 
-def display_requests_total(directory_path):
+def write_requests_total(directory_path, output_file_path):
     try:
+        # Ensure the output directory exists, create it if not
+        output_directory = os.path.dirname(output_file_path)
+        if not os.path.exists(output_directory):
+            os.makedirs(output_directory)
+
         # Store the last read position for each file
         last_positions = {}
 
         while True:
-            # List all files in the specified directory
-            files = os.listdir(directory_path)
+            # List all files in the specified directory that match the pattern "requests_log-*.txt"
+            files = [f for f in os.listdir(directory_path) if f.startswith("requests_log-") and f.endswith(".txt")]
 
             # Initialize total
             total_requests = 0
@@ -35,10 +40,11 @@ def display_requests_total(directory_path):
                 except Exception as e:
                     print(f"Unable to read file content. Error: {e}")
 
-            # Display the total requests
-            print(f"Requests per second: {total_requests:.2f}")
+            # Write the total requests to the output file
+            with open(output_file_path, 'w') as output_file:
+                output_file.write(f"Total Requests per second: {total_requests:.2f}")
 
-            # Wait for 1 second before checking again
+            # Wait for 1 second before updating again
             time.sleep(1)
 
     except FileNotFoundError:
@@ -52,6 +58,8 @@ def display_requests_total(directory_path):
 
 # Specify the directory path
 directory_path = "requests_log"
+# Specify the output file path
+output_file_path = os.path.join("requests_combined", "combined_output.txt")
 
-# Display the total requests from files in the specified directory every second
-display_requests_total(directory_path)
+# Write the total requests from files in the specified directory to the output file every second
+write_requests_total(directory_path, output_file_path)
